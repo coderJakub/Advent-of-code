@@ -1,5 +1,8 @@
 from sys import argv
 
+def func(j,time):
+    return j*(time-j)
+
 with open(argv[1]) as f:
     content = f.readlines()
 
@@ -18,12 +21,12 @@ for i,time in enumerate(times):
     startB=0
     endB=0
     for j in range(int(time)):
-        if func(j)>distance[j]:
+        if func(j,time)>distance[j]:
             startB=j
             break
     for j in range(int(time),startB):
-        if func(j)>distance[j]:
+        if func(j,time)>distance[j]:
             endB=j
             break
-    res*=(endB-startB)
+    res*=(endB-startB)+1
 print(res)
