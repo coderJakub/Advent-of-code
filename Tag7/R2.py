@@ -3,22 +3,51 @@ from sys import argv
 cardsVal  = {"2":0,"3":1,"4":2,"5":3,"6":4,"7":5,"8":6,"9":7,"T":8,"J":-1,"Q":10,"K":11,"A":12}
 def getValue(c):
     arr =[0]*13
+    j=0
     for i in c:
-        arr[cardsVal[i]]+=1
+        if i!='J':
+            arr[cardsVal[i]]+=1
+        else:
+            j+=1
     arr.sort(reverse=True)
     if arr[0]==5:
         return 7
     if arr[0]==4:
-        return 6
+        if j!=1:
+            return 6
+        else:
+            return 7
     if arr[0]==3 and arr[1]==2:
         return 5
     if arr[0]==3:
-        return 4
+        if j==1:
+            return 6
+        if j==2:
+            return 7
+        else:
+            return 4
     if arr[0]==2 and arr[1]==2:
-        return 3
+        if j==1:
+            return 5
+        else:
+            return 3
     if arr[0]==2:
+        if j==1:
+            return 4
+        if j==2:
+            return 6
+        if j==3:
+            return 7
         return 2
     else:
+        if j==5 or j==4:
+            return 7
+        if j==3:
+            return 6
+        if j==2:
+            return 4
+        if j==1:
+            return 2
         return 1
 
 def compare(c1,c2):
