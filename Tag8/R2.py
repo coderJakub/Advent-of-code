@@ -1,5 +1,5 @@
 from sys import argv
-
+import math
 
 with open(argv[1]) as f:
     data = f.read().splitlines()
@@ -13,23 +13,16 @@ for i in range(len(val)):
     val[i][1]=val[i][1][:-1]
 places = [i for i in dest if i[-1]=='A']
 placesIdx= [dest.index(i) for i in places]
-i=0
-allZ=False
-while not allZ:
-    for instruction in instructions:
-        i+=1
-        for j,place in enumerate(places):
+i=[0]*len(places)
+for j,place in enumerate(places):
+    while place[-1]!='Z':
+        for instruction in instructions:
+            i[j]+=1
             if instruction=='L':
-                places[j] = val[placesIdx[j]][0]
+                place = val[placesIdx[j]][0]
             if instruction=='R':
-                places[j] = val[placesIdx[j]][1]
-            placesIdx[j]=dest.index(places[j])
-        allZ=True
-        for k in places:
-            if k[-1]!='Z':
-                allZ=False
+                place = val[placesIdx[j]][1]
+            if place[-1]=='Z':
                 break
-        if allZ:
-            break
-            
-print(i)
+            placesIdx[j]=dest.index(place)
+print(math.lcm(*i))
