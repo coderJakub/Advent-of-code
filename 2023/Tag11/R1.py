@@ -35,4 +35,5 @@ res=0
 for i,galaxy in enumerate(galaxies):
     for j in range(i+1,len(galaxies)):
         res+=abs(galaxy[0]-galaxies[j][0])+abs(galaxy[1]-galaxies[j][1])
+        #add expension
 print(res)
