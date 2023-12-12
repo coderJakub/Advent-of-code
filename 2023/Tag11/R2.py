@@ -36,8 +36,8 @@ for i,galaxy in enumerate(galaxies):
         res+=abs(galaxy[0]-galaxies[j][0])+abs(galaxy[1]-galaxies[j][1])
         for k in col:
             if k>=min(galaxy[1], galaxies[j][1]) and k<=max(galaxy[1],galaxies[j][1]):
-                res+=1
+                res+=1000000-1
         for k in l:
             if k>=min(galaxy[0], galaxies[j][0]) and k<=max(galaxy[0],galaxies[j][0]):
-                res+=1
+                res+=1000000-1
 print(res)
