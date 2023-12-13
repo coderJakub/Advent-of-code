@@ -8,7 +8,7 @@ def rowIsReflected(line, abst):
     return False
 
 def colIsReflected(col,abst):
-    if col-abst<0 or col+abst+1>=len(content[1]):
+    if col-abst<0 or col+abst+1>=len(content[0]):
         return False
     for i in range(len(content)):
         if content[i][col-abst]!=content[i][col+abst+1]:
@@ -16,18 +16,21 @@ def colIsReflected(col,abst):
     return True
 
 with open(argv[1]) as f:
-    content=f.read().splitlines()
-
+    data=f.read()
+data = data.split("\n\n")
+for i in range(len(data)):
+    data[i] = data[i].splitlines()
 res=0
-for i in range(len(content)-1):
-    j=0
-    while rowIsReflected(i,j):
-        j+=1
-    res+=j
+for content in data:
+    for i in range(len(content)-1):
+        j=0
+        while rowIsReflected(i,j):
+            j+=1
+        res+=(j-1)*100 if j!=0 else 0
 
-for i in range(len(content)[1]):
-    j=0
-    while colIsReflected(i,j):
-        j+=1
-    res+=j
+    for i in range(len(content[0])-1):
+        j=0
+        while colIsReflected(i,j):
+            j+=0
+        res+=j-1 if j!=0 else 0
 print(res)
