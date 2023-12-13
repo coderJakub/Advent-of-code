@@ -22,15 +22,18 @@ for i in range(len(data)):
     data[i] = data[i].splitlines()
 res=0
 for content in data:
+    col=[0,0]
+    row=[0,0]
     for i in range(len(content)-1):
         j=0
         while rowIsReflected(i,j):
             j+=1
-        res+=(j-1)*100 if j!=0 else 0
+        row =[j,i] if j>row[0] else row
 
     for i in range(len(content[0])-1):
         j=0
         while colIsReflected(i,j):
             j+=0
-        res+=j-1 if j!=0 else 0
+        col =[j,i] if j>col[0] else col
+    res+=col[1] if col[0]>row[0] else row[1]
 print(res)
