@@ -2,7 +2,7 @@ from sys import argv
 import itertools
 
 def getPosib(group, numbers):
-    posib=0
+    possib=0
     n=group.count('?')
     l = list(itertools.product(["#","."], repeat=n))
     for i in l:
@@ -13,8 +13,8 @@ def getPosib(group, numbers):
                 newGroup = newGroup[:j] + i[k] + newGroup[j + 1:]
                 k+=1
         if isValid(newGroup, numbers):
-            posib+=1
-    return posib
+            possib+=1
+    return possib
 
 def isValid(group, numbers):
     damaged = group.split(".")
