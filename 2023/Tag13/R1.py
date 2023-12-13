@@ -22,8 +22,8 @@ for i in range(len(data)):
     data[i] = data[i].splitlines()
 res=0
 for content in data:
-    col=[0,0]
-    row=[0,0]
+    col=[1,0]
+    row=[1,0]
     for i in range(len(content)-1):
         j=0
         while rowIsReflected(i,j):
