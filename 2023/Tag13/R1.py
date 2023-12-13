@@ -33,7 +33,7 @@ for content in data:
     for i in range(len(content[0])-1):
         j=0
         while colIsReflected(i,j):
-            j+=0
+            j+=1
         col =[j,i] if j>col[0] else col
-    res+=col[1] if col[0]>row[0] else row[1]
+    res+=col[1]+1 if col[0]>row[0] else (row[1]+1)*100
 print(res)
