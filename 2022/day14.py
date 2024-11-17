@@ -26,9 +26,11 @@ for l, x_l in enumerate(x_norm):
 
 sand_spawn = [-1, 500-x_bord[0]]
 
-def fill_sand(grid):
+def fill_sand(grid, part2=False):
     while True:
         curr = sand_spawn.copy()
+        if grid[sand_spawn[0]+1][sand_spawn[1]] == 'o':
+            return grid
         while True:
             try:
                 if grid[curr[0]+1][curr[1]] == '.':
@@ -37,21 +39,43 @@ def fill_sand(grid):
                 if grid[curr[0]+1][curr[1]-1] =='.':
                     curr[0] +=1
                     curr[1] -=1
+                    if curr[1]-1<0:
+                        if not part2:
+                            return grid 
+                        for i in range(len(grid)-1):
+                            grid[i].insert(0,'.')
+                        grid[-1].insert(0,'#')
+                        sand_spawn[1] +=1
                     continue
                 if grid[curr[0]+1][curr[1]+1] == '.':
                     curr[0] +=1
                     curr[1] +=1
+                    if curr[1]+1<0:
+                        if not part2:
+                            return grid 
+                        for i in range(len(grid)-1):
+                            grid[i].insert(0,'.')
+                        grid[-1].insert(0,'#')
+                        sand_spawn[1] +=1
                     continue
             except:
-                return grid
+                if not part2:
+                    return grid
+                for i in range(len(grid)-1):
+                    grid[i].append('.')
+                grid[-1].append('#')
+                continue
             grid[curr[0]][curr[1]] = 'o'
             break
 
-fill_sand(grid)
-for g in grid:
-    print(g)
-exit()
-count = 0
-for g in grid:
-    count += g.count('o')
-print(count)
+gridC = grid.copy()
+gridC.append(['.' for _ in range(x_bord[1]-x_bord[0]+1)])
+gridC.append(['#' for _ in range(x_bord[1]-x_bord[0]+1)])
+
+for part2 in [False, True]: 
+    fill_sand(grid, part2)
+    count = 0
+    for g in grid:
+        count += g.count('o')
+    print(f'Part {2 if part2 else 1}: {count}')
+    grid = gridC
