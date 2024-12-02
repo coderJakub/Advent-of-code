@@ -64,4 +64,6 @@ for part1 in [True, False]:
             max1 = m.count
         else:
             max2 = max(max2, m.count)
+        print(m.itemList)
+    exit()
     print(f'{'Part 1' if part1 else 'Part 2'}: {max1*max2}')
