@@ -1,4 +1,6 @@
 from sys import argv
+import sys
+sys.setrecursionlimit(10**6)
 
 def getNextIdx(i,j):
     match content[i][j]:
@@ -36,6 +38,8 @@ def fill(grid):
         for c in range(cols):
             if grid[r][c] == '.':
                 grid[r][c] = '#' 
+            elif grid[r][c] == 'o':
+                grid[r][c] = '.'
 
 resArr=[['.' for _ in line] for line in content]
 startCoords=[0,0]
@@ -54,7 +58,7 @@ for i,j in [[startCoords[0]+1,startCoords[1]],[startCoords[0]-1,startCoords[1]],
             currElement=[i,j]
             break
 
-
+following = currElement
 before = startCoords
 #iterate from first way
 while currElement!=startCoords:
@@ -67,8 +71,60 @@ while currElement!=startCoords:
         before=currElement
         currElement=sol[0]
 
-fill(resArr)
-for line in resArr:
-    for item in line:
-        print(item, end='')
-    print()
+#find pice for S
+s = None
+for p in ['|','-','7','F','J','L']:
+    content[startCoords[0]] = content[startCoords[0]][:startCoords[1]]+p+content[startCoords[0]][startCoords[1]+1:]
+    n = getNextIdx(startCoords[0],startCoords[1])
+    if n.count(following)!=0 and n.count(before)!=0:
+        s = p
+        break
+
+# Inspired by https://github.com/jonathanpaulson/AdventOfCode/blob/master/2023/10.py
+R = len(content)
+C = len(content[0])
+R2 = 3*R
+C2 = 3*C
+grid2 = [['.' for _ in range(C2)] for _ in range(R2)]
+for r in range(R):
+  for c in range(C):
+    if resArr[r][c] == '#':
+        if content[r][c]=='|':
+            grid2[3*r+0][3*c+1] = 'x'
+            grid2[3*r+1][3*c+1] = 'x'
+            grid2[3*r+2][3*c+1] = 'x'
+        elif content[r][c]=='-':
+            grid2[3*r+1][3*c+0] = 'x'
+            grid2[3*r+1][3*c+1] = 'x'
+            grid2[3*r+1][3*c+2] = 'x'
+        elif content[r][c]=='7':
+            grid2[3*r+1][3*c+0] = 'x'
+            grid2[3*r+1][3*c+1] = 'x'
+            grid2[3*r+2][3*c+1] = 'x'
+        elif content[r][c]=='F':
+            grid2[3*r+2][3*c+1] = 'x'
+            grid2[3*r+1][3*c+1] = 'x'
+            grid2[3*r+1][3*c+2] = 'x'
+        elif content[r][c]=='J':
+            grid2[3*r+1][3*c+0] = 'x'
+            grid2[3*r+1][3*c+1] = 'x'
+            grid2[3*r+0][3*c+1] = 'x'
+        elif content[r][c]=='L':
+            grid2[3*r+0][3*c+1] = 'x'
+            grid2[3*r+1][3*c+1] = 'x'
+            grid2[3*r+1][3*c+2] = 'x'
+    elif resArr[r][c]=='.':
+      pass
+  
+fill(grid2)
+count=0
+for i,line in enumerate(resArr):
+    for j,item in enumerate(line):
+        inPipe = True
+        for rr in range(3):
+            for cc in range(3):
+                if grid2[3*i+rr][3*j+cc]!='#':
+                    inPipe = False
+        if inPipe:
+            count+=1
+print(count)
