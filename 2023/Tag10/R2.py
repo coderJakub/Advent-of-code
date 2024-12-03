@@ -1,77 +1,74 @@
 from sys import argv
 
 def getNextIdx(i,j):
-    if content[i][j]=='|':
-        return [[i+1,j],[i-1,j]]
-    elif content[i][j]=='-':
-        return [[i,j+1],[i,j-1]]
-    elif content[i][j]=='J':
-        return [[i-1,j], [i, j-1]]
-    elif content[i][j]=='L':
-        return [[i-1,j], [i, j+1]]
-    elif content[i][j]=='7':
-        return [[i+1,j], [i, j-1]]
-    elif content[i][j]=='F':
-        return [[i+1,j], [i, j+1]]
-    elif content[i][j]=='S' or content[i][j]=='.':
-        return None
-def touch(i,j):
-    for k in range(i-1, i+2):
-        for l in range(j-1, j+2):
-            if not(k>=0 and l>=0 and k<len(content) and l<len(content[0])):
-                return True
-            elif resArr[k][l]=='-':
-                return True
-    return False
-    
+    match content[i][j]:
+        case '|':return [[i+1,j],[i-1,j]]
+        case '-':return [[i,j+1],[i,j-1]]
+        case 'J':return [[i-1,j],[i, j-1]]
+        case 'L':return [[i-1,j],[i, j+1]]
+        case '7':return [[i+1,j],[i, j-1]]
+        case 'F':return [[i+1,j],[i, j+1]]
+        case '.':return None
+
 with open(argv[1]) as f:
     content = f.read().splitlines()
 
-resArr=[['0' for j in range(len(content[i]))] for i in range(len(content))]
-lineIdx=0
-itemIdx=0
+def fill(grid):
+    rows = len(grid)
+    cols = len(grid[0])
+
+    def is_valid(x, y):
+        return 0 <= x < rows and 0 <= y < cols and grid[x][y] == '.'
+
+    def mark_outside(x, y):
+        if not is_valid(x, y):
+            return
+        grid[x][y] = 'o'
+        for dx, dy in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+            mark_outside(x + dx, y + dy)
+
+    for r in range(rows):
+        for c in range(cols):
+            if (r == 0 or r == rows - 1 or c == 0 or c == cols - 1) and grid[r][c] == '.':
+                mark_outside(r, c)
+
+    for r in range(rows):
+        for c in range(cols):
+            if grid[r][c] == '.':
+                grid[r][c] = '#' 
+
+resArr=[['.' for _ in line] for line in content]
+startCoords=[0,0]
 for line, item in enumerate(content):
     if item.find('S')!=-1:
-        lineIdx=line
-        itemIdx=item.index('S')
+        startCoords=[line,item.index('S')]
         break
-resArr[lineIdx][itemIdx]='x'
-start1=[-1,-1]
-start2=[-1,-1]
+resArr[startCoords[0]][startCoords[1]]='#'
+currElement=[-1,-1]
 
-#get start1 and start2
-for i in range(lineIdx-1, lineIdx+2):
-    for j in range(itemIdx-1, itemIdx+2):
-        if i>=0 and j>=0 and i<len(content) and j<len(content[0]):
-            x = getNextIdx(i,j)
-            if x!=None and [lineIdx, itemIdx] in x and start1==[-1,-1]:
-                start1=[i,j]
-            elif x!=None and [lineIdx, itemIdx] in x:
-                start2=[i,j]
-                break
-before = [lineIdx, itemIdx]
+#get currElement
+for i,j in [[startCoords[0]+1,startCoords[1]],[startCoords[0]-1,startCoords[1]],[startCoords[0],startCoords[1]+1],[startCoords[0],startCoords[1]-1]]:
+    if 0<=i<len(content) and 0<=j<len(content[0]):
+        n = getNextIdx(i,j)
+        if n!=None and startCoords in n:
+            currElement=[i,j]
+            break
+
+
+before = startCoords
 #iterate from first way
-while start1!=[lineIdx, itemIdx]:
-    resArr[start1[0]][start1[1]]='x'
-    sol=getNextIdx(start1[0], start1[1])
+while currElement!=startCoords:
+    resArr[currElement[0]][currElement[1]]='#'
+    sol=getNextIdx(currElement[0], currElement[1])
     if sol[0]==before:
-        before=start1
-        start1=sol[1]
+        before=currElement
+        currElement=sol[1]
     else:
-        before=start1
-        start1=sol[0]
+        before=currElement
+        currElement=sol[0]
 
-while True:
-    changes = False
-    for i in range(len(resArr)):
-        for j in range(len(resArr[0])):
-            if resArr[i][j]=='0' and touch(i,j):
-                resArr[i][j]='-'
-                changes=True
-    if not changes:
-        break
-res=0
-for i in resArr:
-    print(i)
-    res+=i.count(".")
-print(res)
+fill(resArr)
+for line in resArr:
+    for item in line:
+        print(item, end='')
+    print()

@@ -33,16 +33,18 @@ grid = set()
 grid.add((0,0))
 i,j = 0,0
 for inst in content:
-    d = inst.split(" ")[0]
-    st = int(inst.split(" ")[1])
-    match d:
-        case 'R':
+    hexa = inst.split(" ")[2][2:-1]
+    hexa_str = '0x'+hexa[:-1]
+    d = hexa[-1]
+    st = int(hexa_str, 16)
+    match int(d):
+        case 0:
             dir = [0,1]
-        case 'L':
+        case 2:
             dir = [0,-1]
-        case 'U':
+        case 3:
             dir = [-1,0]
-        case 'D':
+        case 1:
             dir = [1,0]
         
     for _ in range(st):
