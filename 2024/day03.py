@@ -1,12 +1,31 @@
+import re
 with open('in.txt') as f:
     content = f.read()
     
 
-def mul(str):
-    nums = str[4:-1].split(',')
+def mul(s):
+    nums = s[4:-1].split(',')
     return int(nums[0]) * int(nums[1])
 
-for part in [1, 2]:
+# Verkürzte Lösung mit regulären Ausdrücken
+reg = re.compile(r'mul\(\d{0,3},\d{0,3}\)')
+print(f'Part 1: {sum([mul(x) for x in reg.findall(content)])}')
+
+enabled = True
+s = ""
+for i in range(len(content)):
+    if content[i:].startswith('do()'):
+        i+=3
+        enabled = True
+    elif content[i:].startswith("don't()"):
+        i+=4
+        enabled = False
+    if enabled:
+        s += content[i]
+print(f'Part 2: {sum([mul(x) for x in reg.findall(s)])}')
+    
+# Eigentliche Lösung
+'''for part in [1, 2]:
     sum = 0
     enabled = True
     lines = content
@@ -39,4 +58,4 @@ for part in [1, 2]:
                 continue
         lines = lines[1:]
     print(f'Part {part}: {sum}')
-        
+'''        
