@@ -1,16 +1,16 @@
+from collections import defaultdict
 with open('in.txt') as f:
     content = f.read()
 
 def checkRow(instr):
     updt = []
     for i,k in enumerate(instr):
-        if k not in ab.keys():
+        if k not in ab:
             updt.append(k)
-        else:
-            if all([abh in updt for abh in ab[k] if abh in instr]):
-                updt.append(k)
-            else:
+        else: 
+            if not all([abh in updt for abh in ab[k] if abh in instr]):
                 return False,[abh for abh in ab[k] if abh in instr and abh not in updt],i
+            updt.append(k)
     return True, None, None
 
 def correctInstr(instr,wrong,index):
@@ -22,15 +22,11 @@ def correctInstr(instr,wrong,index):
         if r:
             return int(instr[len(instr)//2])
 
-ab = {}
+ab = defaultdict(list)
 inst = content.split('\n\n')[1].splitlines()
 for row in content.split('\n\n')[0].splitlines():
     v,k = row.split('|')
-    if k not in ab.keys():
-        ab[k] = [v]
-    else:
-        ab[k].append(v)
-        
+    ab[k].append(v)
 
 p1=0
 p2=0
