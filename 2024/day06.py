@@ -1,4 +1,5 @@
 from copy import deepcopy
+import time
 with open('in.txt') as f:
     content = [[c for c in line] for line in f.read().splitlines()]
 
@@ -24,18 +25,17 @@ def findPathOut(grid,start):
         x,y = x+d[di][0],y+d[di][1]
         visited.add((x,y))
         visited_with_direction.add((x,y,di))
-    return len(visited)
+    return len(visited), visited
 
-print(f'Part 1: {findPathOut(content,start)}')
+p1, v = findPathOut(content,start)
+print(f'Part 1: {p1}')
 
 count =0
-for i,line in enumerate(content):
-    for j,c in enumerate(line):
-        if c == '#' or c == '^':
-            continue
-        newContent = deepcopy(content)
-        newContent[i][j] = '#'
-        if findPathOut(newContent,start) is None:
-            count += 1
-
+for (i,j) in v:
+    if (i,j) == start:
+        continue
+    newContent = deepcopy(content)
+    newContent[i][j] = '#'
+    if findPathOut(newContent,start) is None:
+        count += 1
 print(f'Part 2: {count}')
