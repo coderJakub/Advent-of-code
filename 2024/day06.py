@@ -13,11 +13,8 @@ def findPathOut(grid,start):
     x,y = start
     d = [[-1,0],[0,1],[1,0],[0,-1]]
     di = 0
-    visited = set()
-    visited_with_direction = set()
-    visited.add((x,y))
-    visited_with_direction.add((x,y,di))
-    iter = 0
+    visited = {(x,y)}
+    visited_with_direction = {(x,y,di)}
     while 0<=x+d[di][0]<R and 0<=y+d[di][1]<C:
         if (x+d[di][0],y+d[di][1],di) in visited_with_direction:
             return None
@@ -27,7 +24,6 @@ def findPathOut(grid,start):
         x,y = x+d[di][0],y+d[di][1]
         visited.add((x,y))
         visited_with_direction.add((x,y,di))
-        iter += 1
     return len(visited)
 
 print(f'Part 1: {findPathOut(content,start)}')
