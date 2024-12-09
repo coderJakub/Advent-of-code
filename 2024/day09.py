@@ -50,7 +50,7 @@ def orderPart2(disk: list):
             
             #Wenn das File den freien Platz nicht komplett ausfüllt, wird der Rest als freier Platz hinter dem File angehängt
             if size2>size:
-                disk.insert(j+1,[-1,size2-size])
+                disk.insert(j+1,[-1,size2-size]) #-> index i überspringt dadurch ein Block aber das ist egal, da Speicher immer abwechselnd File und freier Platz beinhaltet und dadurch nächstes i eh ein freier Platz wäre (wenn es verhindert werden soll einfach i+=1)
             break
     return disk
 
