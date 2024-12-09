@@ -1,7 +1,7 @@
 with open('in.txt') as f:
     lines = f.read()
 
-disk =[]
+disk =[] #[ID,Size]
 for i in range(0,len(lines),2):
     if i>0:
         disk.append([-1,int(lines[i-1])])
