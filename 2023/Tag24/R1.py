@@ -28,14 +28,19 @@ def calculate_intersection(g1, g2):
     except np.linalg.LinAlgError:
         return None
 
-p1 = 0
+ans = 0
 testarea = [200000000000000,400000000000000]
 for i, vec1 in enumerate(vector):
+    p1,r1 = vec1
     for j, vec2 in enumerate(vector[i+1:]):
-        t = calculate_intersection(vec1, vec2)
-        if t is None:
-            continue
-        (x,y), (t1,t2) = t
-        if testarea[0]<=x<=testarea[1] and testarea[0]<=y<=testarea[1] and t1>=0 and t2>=0:
-            p1 += 1       
-print(p1)
+        p2,r2 = vec2
+        try:
+            t1 = ((p2[1]-p1[1]) * r2[0] - (p2[0]-p1[0]) * r2[1]) / (r2[0] * r1[1] - r2[1] * r1[0])
+            t2 = ((p2[1]-p1[1]) * r1[0] - (p2[0]-p1[0]) * r1[1]) / (r2[0] * r1[1] - r2[1] * r1[0])
+            x = p1[0] + t1 * r1[0]
+            y = p1[1] + t1 * r1[1]
+            if testarea[0]<=x<=testarea[1] and testarea[0]<=y<=testarea[1] and t1>=0 and t2>=0:
+                ans += 1   
+        except:    
+            pass
+print(ans)
