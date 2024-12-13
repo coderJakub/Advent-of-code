@@ -1,5 +1,3 @@
-import heapq
-
 with open('in.txt') as f:
     content = f.read()
 
