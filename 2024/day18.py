@@ -23,8 +23,8 @@ walls = set()
 for k,line in enumerate(content):
     if k==1024:
         print(f'Part 1: {bfs((0,0),(R-1,C-1))}')
-    j,i = [int(x) for x in line.split(',')]
-    walls.add((i,j))
-    if bfs((0,0),(R-1,C-1)) == None:
+    elif k>1024 and bfs((0,0),(R-1,C-1)) == None:
         print(f'Part 2: {j},{i}')
         break
+    j,i = [int(x) for x in line.split(',')]
+    walls.add((i,j))
