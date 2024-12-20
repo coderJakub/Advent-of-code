@@ -1,4 +1,6 @@
 from collections import defaultdict
+import time
+
 with open('in.txt') as file:
     content = file.read().splitlines()
     
@@ -30,29 +32,29 @@ def checkCheat(start,visited, abbr):
         seen.add((i,j))
         if content[i][j] != '#' and (i,j)!=start:
             pointPairs[((si,sj),(i,j))] = max(pointPairs[((si,sj),(i,j))],visited[(si,sj)]-visited[(i,j)]-d)
-            continue
                 
         for dx,dy in [(1,0),(0,1),(-1,0),(0,-1)]:
             if 0<=i+dx<R and 0<=j+dy<C:
                 q.append(((i+dx,j+dy),d+1))
-    
+
+start = time.time()  
 R = len(content)
 C = len(content[0])
 
 for i in range(R):
-    for j in range(C):
-        if content[i][j] == 'E':
-            visited = bfs((i,j))
-            break
-
-for p,time in [('1',2),('2',20)]:
+    if content[i].count('E')>0:
+        visited = bfs((i,content[i].index('E')))
+        break
+        
+for p,timeLimit in [('1',2),('2',20)]:
     pointPairs = defaultdict(int)
     count= 0
     for i in range(R):
         for j in range(C):
             if content[i][j] != '#':
-                checkCheat((i,j),visited,time)
+                checkCheat((i,j),visited,timeLimit)
     for k,v in pointPairs.items():
         if v>=100:
             count+=1
     print(f'Part {p}: {count}')
+print(f'Time taken: {time.time()-start:.2f}s')
