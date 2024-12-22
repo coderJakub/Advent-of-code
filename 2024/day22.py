@@ -1,3 +1,4 @@
+from collections import defaultdict
 with open('in.txt') as f:
     content = [int(x) for x in f.read().splitlines()]
 
@@ -17,26 +18,24 @@ for _ in range(2000):
 for i in range(len(prizes)):
     prizes[i].pop(0)
 
-best = 0
-SEEN = set()
-for p in prizesE:
-    print("---",prizesE.index(p))
-    for i in range(len(p)-3):
-        d1 = p[i]
-        d2 = p[i+1]
-        d3 = p[i+2]
-        d4 = p[i+3]
-        if (d1,d2,d3,d4) in SEEN:
-            continue
-        SEEN.add((d1,d2,d3,d4))
-        score = 0
-        for prize,prizeE in zip(prizes,prizesE):
-            for k in range(len(prize)-3):
-                if prizeE[k] == d1 and prizeE[k+1] == d2 and prizeE[k+2] == d3 and prizeE[k+3] == d4:
-                    score += prize[k+3]
-                    break
-        if score > best:
-            best = score
-            print(score)
-
 print(f'Part 1: {sum(content)}')
+
+def getScore(prizeE,prize):
+    score = {}
+    for i in range(len(prizeE)-3):
+        d1 = prizeE[i]
+        d2 = prizeE[i+1]
+        d3 = prizeE[i+2]
+        d4 = prizeE[i+3]
+        if (d1,d2,d3,d4) in score:
+            continue
+        score[(d1,d2,d3,d4)] = prize[i+3]
+    return score        
+
+ANS = defaultdict(int)
+for i in range(len(prizesE)):
+    scores = getScore(prizesE[i],prizes[i])
+    for k,v in scores.items():
+        ANS[k] += v
+
+print(f'Part 2: {max(ANS.values())}')
