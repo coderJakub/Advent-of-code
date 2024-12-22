@@ -29,10 +29,10 @@ def getPath(start,end,grid:dict):
 
 mem = {}
 import sys
-def getInstructions(code,i,last,grid):
+def getInstructions(code,i,last,grid,pads):
     global robot
     x,y = robot[i]
-    instrString = ''
+    lenInstr = 0
     robotBef = tuple(robot[i:].copy())
     if (robotBef,code,last) in mem:
         newR, instr = mem[(robotBef,code,last)]
@@ -40,26 +40,28 @@ def getInstructions(code,i,last,grid):
         return instr
     for num in code:
         xx,yy = grid[num]
-        bestString = ''
+        shortestLen = float('inf')
         possibleMoves = getPath((x,y),(xx,yy),grid)
         for k,moves in enumerate(possibleMoves):
-            if i<25:
-                moves = getInstructions(moves,i+1,k==len(possibleMoves)-1,coordsInstructionpad)
-            if bestString=='' or len(moves)+1 < len(bestString):
-                bestString = moves
-        instrString += bestString
+            if i<pads:
+                lenInstrN = getInstructions(moves,i+1,k==len(possibleMoves)-1,coordsInstructionpad,pads)
+            else:
+                lenInstrN = len(moves)
+            shortestLen = min(shortestLen,lenInstrN)
+        lenInstr += shortestLen
         x,y = xx,yy
     if last:
         robot[i] = (x,y)
-    mem[(robotBef,code,last)] = (tuple(robot[i:]),instrString)
-    return instrString
+    mem[(robotBef,code,last)] = (tuple(robot[i:]),lenInstr)
+    return lenInstr
 
-p1 = 0 
-robot = [coordsInstructionpad['A'] for _ in range(25)]
-robot.insert(0,coordsNumpad['A'])
-for line in content:
-    numericPart = int(line[:-1])
-    instr = getInstructions(line,0,True,coordsNumpad)
-    p1 += numericPart*len(instr)
+for part,pads in [(1,2),(2,25)]:
+    count = 0
+    robot = [coordsInstructionpad['A'] for _ in range(pads)]
+    robot.insert(0,coordsNumpad['A'])
+    for line in content:
+        numericPart = int(line[:-1])
+        instr = getInstructions(line,0,True,coordsNumpad,pads)
+        count += numericPart*instr
 
-print(f'Part 1: {p1}')
+    print(f'Part {part}: {count}')
