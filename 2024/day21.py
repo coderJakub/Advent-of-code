@@ -27,16 +27,23 @@ def getPath(start,end,grid:dict):
             valid_paths.append(''.join(path)+'A')
     return valid_paths
 
+mem = {}
+import sys
 def getInstructions(code,i,last,grid):
     global robot
     x,y = robot[i]
     instrString = ''
+    robotBef = tuple(robot[i:].copy())
+    if (robotBef,code,last) in mem:
+        newR, instr = mem[(robotBef,code,last)]
+        robot = robot[:i]+list(newR)
+        return instr
     for num in code:
         xx,yy = grid[num]
         bestString = ''
         possibleMoves = getPath((x,y),(xx,yy),grid)
         for k,moves in enumerate(possibleMoves):
-            if i<2:
+            if i<25:
                 moves = getInstructions(moves,i+1,k==len(possibleMoves)-1,coordsInstructionpad)
             if bestString=='' or len(moves)+1 < len(bestString):
                 bestString = moves
@@ -44,10 +51,11 @@ def getInstructions(code,i,last,grid):
         x,y = xx,yy
     if last:
         robot[i] = (x,y)
+    mem[(robotBef,code,last)] = (tuple(robot[i:]),instrString)
     return instrString
 
 p1 = 0 
-robot = [coordsInstructionpad['A'] for _ in range(2)]
+robot = [coordsInstructionpad['A'] for _ in range(25)]
 robot.insert(0,coordsNumpad['A'])
 for line in content:
     numericPart = int(line[:-1])
