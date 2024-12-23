@@ -18,7 +18,7 @@ for i,line in enumerate(content):
             groups[line2[1]].add(line2[0])
         if line2[1] in line:
             groups[line2[0]].add(line2[1])
-    p1 += sum(len(val)==2 and (k.startswith('t') or list(val)[0].startswith('t') or list(val)[1].startswith('t')) for k,val in groups.items())
+    p1 += sum(len(val)==2 and any(x.startswith('t') for x in list(val)+[k]) for k,val in groups.items())
 print(f'Part 1: {p1}')
 
 computers = list(computers)
