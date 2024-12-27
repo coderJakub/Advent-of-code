@@ -62,8 +62,6 @@ def printBit(gate,d=0):
 switches = [['hbs','kfp'],['z18','dhq'],['z22','pdg'],['z27','jcp']]
 switchWires = []
 for switch in switches:
-    x1,g1,y1 = gates[switch[0]]
-    x2,g2,y2 = gates[switch[1]]
     gates[switch[0]], gates[switch[1]] = gates[switch[1]], gates[switch[0]]
     switchWires.extend(switch)
 #getWrongBits()

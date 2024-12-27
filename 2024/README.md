@@ -1,4 +1,6 @@
-# Completed Days 2022:
+# Completed Days 2024:
+
+![Personal Times 2024](stats.png)
 
 ✔️ => done, without help
 ⭕ => done, with help
