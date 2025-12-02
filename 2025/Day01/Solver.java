@@ -1,13 +1,12 @@
 package Day01;
 
 import helper.FileReader;
-import java.util.List;
 
 public class Solver {
     
     public static void main(String[] args) throws Exception {
         FileReader fr = new FileReader(args);
-        List<String> lines = fr.readLines();
+        String[] lines = fr.readLines();
         
         int dial = 50;
         int p1 = 0;
