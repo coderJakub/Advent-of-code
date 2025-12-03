@@ -8,7 +8,7 @@ public class FileReader {
     Path file;
 
     public String[] readLines() {
-        return this.readAll().split("\n");
+        return this.readAll().split(System.lineSeparator());
     }
 
     public String[] readCSV(){

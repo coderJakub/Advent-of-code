@@ -1,4 +1,7 @@
-with open('in.txt') as f:
+import sys
+
+filename = "in.txt" if len(sys.argv)<1 else sys.argv[1]
+with open(filename) as f:
     content = f.read().split("\n")
     
 dial = 50
