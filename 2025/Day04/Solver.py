@@ -19,20 +19,19 @@ p1 = 0
 p2 = 0
 
 changes = True
-rounds = 0
+firstRound = True
 while changes:
     changes = False
     removable = set()
     for i, line in enumerate(grid):
         for j, c in enumerate(line):
             if c=='@' and getAdjRools(i, j, grid) < 4:
-                removable.add((i,j))
-    
-    for i, j in removable: grid[i][j] = '.'
-    if rounds == 0: p1 = len(removable)
-    p2 += len(removable)
-    changes = len(removable)>0
-    rounds += 1
+                changes = True
+                p1 += firstRound
+                if not firstRound:
+                    grid[i][j] = '.'
+                    p2 += 1
+    firstRound = False
     
 print(f'Part 1: {p1}')
 print(f'Part 2: {p2}')
