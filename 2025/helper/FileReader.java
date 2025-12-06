@@ -11,6 +11,15 @@ public class FileReader {
         return this.readAll().split(System.lineSeparator());
     }
 
+    public String[][] readBlocks() {
+        String[] blocksStrings = this.readAll().split(System.lineSeparator().repeat(2));
+        String[][] blocks = new String[blocksStrings.length][];
+        for (int i=0; i<blocksStrings.length; i++){
+            blocks[i] = blocksStrings[i].split(System.lineSeparator());
+        }
+        return blocks;
+    }
+
     public String[] readCSV(){
         return this.readAll().split(",");
     }

@@ -18,6 +18,14 @@ typedef struct {
 FileContent readLines(const char *filename);
 
 /**
+ * Reads all lines from a block of a file (blocks are separated bei a blank line).
+ * @param filename Path to the file.
+ * @param blockIdx Block index.
+ * @return FileLines Structure with all lines in the block (must be released with freeFileLine()).
+ */
+FileContent readBlock(const char *filename, int blockIdx);
+
+/**
  * Splits string into tokens.
  * @param str String.
  * @param delimiter Delimiter according to which splitting should be performed.

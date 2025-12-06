@@ -7,7 +7,7 @@ with open(filename) as f:
 fresh = [(tuple(map(int,line.split('-')))) for line in grid[0].splitlines()]
 avialable = list(map(int, grid[1].splitlines()))
 
-p1 = len(set(ingr for ingr in avialable for rg in fresh if rg[0]<=ingr<=rg[1]))
+p1 = sum([any(rg[0]<=ingr<=rg[1] for rg in fresh) for ingr in avialable]) 
 
 while True:
     newFresh = []

@@ -2,6 +2,12 @@
 
 #define INITIAL_CAPACITY 100
 
+#if defined(__linux__)
+    #define LINE_ENDING "\n"
+#else
+    #define LINE_ENDING "\r\n"
+#endif
+
 FileContent readLines(const char *filename) {
     FileContent result = {NULL, 0};
     char *content = readAll(filename);
@@ -9,10 +15,32 @@ FileContent readLines(const char *filename) {
         return result;
     }
     
-    result = splitString(content, "\r\n");
+    result = splitString(content, LINE_ENDING);
     
     free(content);
     return result;
+}
+
+FileContent readBlock(const char *filename, int blockIdx){
+    FileContent block = {NULL, 0};
+    char *content = readAll(filename);
+    if (!content) return block;
+    
+
+    char* blockEnd = strstr(content, LINE_ENDING LINE_ENDING);
+    char* output = content;
+    for (int i=0; i<blockIdx; i++){
+        if (!blockEnd) return block;
+        blockEnd += strlen(LINE_ENDING LINE_ENDING);
+        output = blockEnd;
+        blockEnd = strstr(output, LINE_ENDING LINE_ENDING);
+    }
+
+    if (blockEnd) *blockEnd = '\0';
+
+    block = splitString(output, LINE_ENDING);
+    free(content);
+    return block;
 }
 
 FileContent splitString(const char *str, const char *delimiter) {
