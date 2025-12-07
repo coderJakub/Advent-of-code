@@ -32,7 +32,7 @@ public class Solver{
     public static long getPart2Solution(String[] freshIngredientsS){
         long res = 0;
         long[][] freshIngredients = getSortedLongArray(freshIngredientsS);
-        List<long[]> distinctRanges = new LinkedList<>();
+        LinkedList<long[]> distinctRanges = new LinkedList<>();
         
         for (long[] range : freshIngredients){   
             if (!distinctRanges.isEmpty() && range[0] <= distinctRanges.getLast()[1]){

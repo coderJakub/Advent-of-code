@@ -84,12 +84,6 @@ FileContent splitString(const char *str, const char *delimiter) {
             result.content = temp;
         }
         
-        // Copy token (remove whitespace if desired)
-        // Remove leading spaces
-        while (*token == ' ' || *token == '\t') {
-            token++;
-        }
-        
         result.content[result.count] = strdup(token);
         if (!result.content[result.count]) {
             fprintf(stderr, "Memory error during copying\n");
