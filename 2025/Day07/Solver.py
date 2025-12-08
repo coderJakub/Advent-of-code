@@ -6,29 +6,19 @@ with open(filename) as f:
     content = f.read().splitlines()
 
 fb = content[0].find('S')
-
-beams = defaultdict(int)
-singleBeams = set([fb])
-beams[fb] += 1
+beams = defaultdict(int, {fb: 1})
 p1 = 0
 
 for i in range(1,len(content)):
-    newSingleBeams = set()
     newBeams = defaultdict(int)
-    for beam in singleBeams:
+    for beam, am in beams.items():
         if content[i][beam] == '^':
             p1 += 1
-            if beam+1<len(content):
-                newSingleBeams.add(beam+1)
-                newBeams[beam+1] += beams[beam]
-            if beam-1>=0:
-                newSingleBeams.add(beam-1)
-                newBeams[beam-1] += beams[beam]
+            newBeams[beam+1] += am
+            newBeams[beam-1] += am
         else:
-            newBeams[beam] += beams[beam]
-            newSingleBeams.add(beam)
+            newBeams[beam] += am
     beams = newBeams.copy()
-    singleBeams = newSingleBeams.copy()
 
 print(f'Part 1: {p1}')
 print(f'Part 2: {sum(beams.values())}')
