@@ -1,9 +1,9 @@
 # 🎄 Advent of Code 2025
-In this directory, you will find my solutions for the [Advent of Code 2025 challenges](https://adventofcode.com/2025). For this edition, only **12 days** of puzzles are available. I primarily solve the challenges in **Python**, but I also implement each solution in **Java** and **C** to practice these languages again.
+In this directory, you will find my solutions for the [Advent of Code 2025](https://adventofcode.com/2025) challenges. For this edition, only **12 days** of puzzles are available. I primarily solve the challenges in **Python**, but I also implement each solution in **Java** and **C** to practice these languages again.
 ### Table of Contents
-1. 🗂️ [Structure](#structure)
-2. 🚀 [Running the Solutions](#running-the-solutions)
-3. 📅 [Progress Tracker](#progress-tracker)
+1. 🗂️ [Structure](#%EF%B8%8F-structure)
+2. 🚀 [Running the Solutions](#%F0%9F%9A%80-running-the-solutions)
+3. 📅 [Progress Tracker](#%F0%9F%93%85-progress-tracker)
 ---
 
 
@@ -11,14 +11,15 @@ In this directory, you will find my solutions for the [Advent of Code 2025 chall
 Each day has its own folder named `DayXX`, where `XX` is the day number (01 to 12). Inside each folder, you will find the solution files for that day's challenge in Python (`Solver.py`), Java (`Solver.java`), and C (`Solver.C`).
 ```yaml
 2025/
-├── Day01
+├── Day01/
 │   ├── Solver.py
 │   ├── Solver.java
 │   └── Solver.C
-├── Day02
-├── Day03
+├── Day02/
+├── Day03/
 ├── ...
-├── Day12
+├── Day12/
+├── helpers/
 ├── runDay.bat
 ├── runDay.sh
 └── README.md
@@ -30,7 +31,7 @@ To run the solutions for a specific day, you can use the provided scripts:
 - `runDay.sh` for Unix-based systems
 
 ### Prerequisites
-Create a file named input.txt inside the respective DayXX folder containing the puzzle input for that day. Additionally, ensure you have the necessary runtimes and compilers installed for Python, Java, and C.
+Create a file named input.txt inside the respective DayXX folder containing the puzzle input for that day. Additionally, ensure you have Python, the Java JDK, and/or a C compiler installed.
 
 ### Instructions
 ```
@@ -53,9 +54,20 @@ Run the Python and Java solutions for Day 3:
 ```
 
 ### Note
-You can also run the solutions directly using the respective language interpreters or compilers. For example, to run the Python solution:
+You can also run the solutions directly using the respective language interpreters 
 ```bash
+# Python
+cd DayXX
 python Solver.py [optional_input_file]
+
+# Java
+mkdir -p out
+javac -d out helper\FileReader.java DayXX\Solver.java
+java  -cp out DayXX.Solver [input_file]
+
+# C
+gcc -o Solver DayXX\Solver.c helper\FileReader.c
+./Solver [input_file]
 ```
 
 ## 📅 Progress Tracker
