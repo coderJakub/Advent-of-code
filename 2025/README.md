@@ -2,7 +2,7 @@
 In this directory, you will find my solutions for the [Advent of Code 2025](https://adventofcode.com/2025) challenges. For this edition, only **12 days** of puzzles are available. I primarily solve the challenges in **Python**, but I also implement each solution in **Java** and **C** to practice these languages again.
 ### Table of Contents
 1. 🗂️ [Structure](#%EF%B8%8F-structure)
-2. 🚀 [Running the Solutions](-running-the-solutions)
+2. 🚀 [Running the Solutions](#-running-the-solutions)
 3. 📅 [Progress Tracker](#-progress-tracker)
 ---
 
