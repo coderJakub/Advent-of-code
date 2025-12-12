@@ -84,9 +84,9 @@ I will update this table as I complete each day's challenge, including which lan
 | **07**  | ⭐    | ⭐   | ✅   | ✅   |
 | **08**  | ⭐    | ⭐   |    |    |
 | **09**  | ⭐    | ⭐   |    |    |
-| **10**  |     |    |    |    |
-| **11**  |     |    |    |    |
-| **12**  |     |    |    |    |
+| **10**  | ⭐    |    |    |    |
+| **11**  | ⭐    | ⭐   |    |    |
+| **12**  | ⭐    | ⭐   |    |    |
 
 ---
 Legend: ⭐ = Solved ✅ = Implemented
